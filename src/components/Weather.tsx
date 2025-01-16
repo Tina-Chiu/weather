@@ -1,5 +1,8 @@
-import React from 'react'
-import Box from '@mui/material/Box'
+// import React from 'react'
+import { WeatherBg } from './WeatherBg'
+import { Header } from './Header'
+import { WeatherCard } from './WeatherCard'
+import { ForecastCard } from './ForecastCard'
 
 interface WeatherProps {
   children?: React.ReactNode,
@@ -7,18 +10,22 @@ interface WeatherProps {
 
 export function Weather ({ children }: WeatherProps) {
   return (
-    <Box sx={{
-      minHeight: '100vh',
-      backgroundImage: 'url(/assets/images/homepage.svg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}
-    >
+    <WeatherBg>
+      <Header />
+      <WeatherCard />
+      <ForecastCard
+        day="明日"
+        weatherIcon="☀️"
+        maxTemp="25"
+        minTemp="15"
+      />
+      <ForecastCard
+        day="明後日"
+        weatherIcon="☁️"
+        maxTemp="20"
+        minTemp="10"
+      />
       {children}
-    </Box>
+    </WeatherBg>
   )
 }
