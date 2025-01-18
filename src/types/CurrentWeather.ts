@@ -1,5 +1,7 @@
+import { type Coordinates } from './Coordinates'
+
 export interface CurrentWeather {
-  coord: Coord,
+  coord: Coordinates,
   weather: Weather[],
   base: string,
   main: Main,
@@ -16,11 +18,6 @@ export interface CurrentWeather {
 
 export interface Clouds {
   all: number,
-}
-
-export interface Coord {
-  lon: number,
-  lat: number,
 }
 
 export interface Main {

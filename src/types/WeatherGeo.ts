@@ -1,8 +1,10 @@
+import { type Coordinates } from './Coordinates'
+
 export interface WeatherGeo {
   name: string,
   local_names?: Record<string, string>,
-  lat: number,
-  lon: number,
+  lat: Coordinates['lat'],
+  lon: Coordinates['lon'],
   country: string,
   state: string,
 }
