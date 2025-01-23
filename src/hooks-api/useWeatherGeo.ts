@@ -12,6 +12,7 @@ export function useWeatherGeo (query?: string, onSuccess?: (data: WeatherGeo[]) 
     : null
   const { data, error, isLoading } = useSWR<WeatherGeo[]>(key, weatherSWRFetcher, {
     onSuccess,
+    revalidateOnFocus: false,
   })
 
   return {
