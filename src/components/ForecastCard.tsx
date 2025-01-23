@@ -1,19 +1,18 @@
-// import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { WeatherIcon } from './WeatherIcon'
 
 interface ForecastCardProps {
-  day: string,
-  weatherIcon: string,
-  maxTemp: string,
-  minTemp: string,
+  day?: string,
+  weatherIconCode?: string,
+  temp?: number,
+  humidity?: number,
 }
 
-export function ForecastCard ({ day, weatherIcon, maxTemp, minTemp }: ForecastCardProps) {
+export function ForecastCard ({ day, weatherIconCode, temp = 0, humidity }: ForecastCardProps) {
   return (
     <Box
       sx={{
-        marginTop: '2rem',
         background: 'var(--card, linear-gradient(180deg, rgba(231, 236, 242, 0.56) 0%, rgba(134, 167, 185, 0.56) 100%))',
         borderRadius: '8px',
         padding: '2rem',
@@ -22,14 +21,12 @@ export function ForecastCard ({ day, weatherIcon, maxTemp, minTemp }: ForecastCa
       }}
     >
       <Typography>{day}</Typography>
-      <Typography>{weatherIcon}</Typography>
+      <WeatherIcon iconCode={weatherIconCode} />
       <Typography>
-        最高
-        {maxTemp}
+        {`溫度：${Number(temp).toFixed(1)}°C`}
       </Typography>
       <Typography>
-        最低
-        {minTemp}
+        {`濕度：${humidity}%`}
       </Typography>
     </Box>
   )

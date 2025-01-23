@@ -1,33 +1,39 @@
-import { useState } from 'react'
-import { Stack, TextField, Button } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Stack, TextField, Button, CircularProgress } from '@mui/material'
 import { useWeatherGeo } from '../hooks-api/useWeatherGeo'
-import { useCurrentWeather } from '../hooks-api/useCurrentWeather'
+import { useWeather } from './WeatherProvider/useWeather'
+import { type WeatherGeo } from '../types/WeatherGeo'
 
 export function Header () {
   const [city, setCity] = useState<string>('')
-  const [cityParam, setCityParam] = useState<string>('')
-  const { data } = useWeatherGeo(cityParam)
+  const [cityQuery, setCityQuery] = useState<string>('Taiwan')
+  const { searchLoading, setCoordinates, setSearchLoading, setHasWeatherData } = useWeather()
 
-  const lat = data?.[0].lat
-  const lon = data?.[0].lon
+  const handleSearchOnSuccess = (data: WeatherGeo[]) => {
+    if (data.length === 0) {
+      setHasWeatherData(false)
+      return
+    }
+    setCoordinates({ lat: data?.[0].lat, lon: data?.[0].lon })
+  }
 
-  const { data: currentWeatherData } = useCurrentWeather({ lat, lon })
+  const { isLoading } = useWeatherGeo(cityQuery, (data) => handleSearchOnSuccess(data))
 
-  console.log(currentWeatherData?.weather)
+  useEffect(() => {
+    setSearchLoading(isLoading)
+  }, [isLoading, setSearchLoading])
 
   return (
     <Stack
       p={1.5}
-      alignItems="flex-end"
+      justifyContent="flex-end"
       flexDirection="row"
       sx={{
-        maxHeight: '68px',
         width: '100%',
         background: 'var(--card-bg, linear-gradient(180deg, rgba(212, 229, 236, 0.56) 0%, rgba(231, 236, 242, 0.56) 100%))',
       }}
     >
       <TextField
-        id="outlined-basic"
         variant="outlined"
         sx={{
           width: '400px',
@@ -39,14 +45,15 @@ export function Header () {
         onChange={(e) => setCity(e.target.value)}
       />
       <Button
-        variant="contained"
+        variant="outlined"
+        disabled={searchLoading || !city}
         sx={{
           height: '40px',
           marginLeft: '1rem',
         }}
-        onClick={() => setCityParam(city)}
+        onClick={() => setCityQuery(city)}
       >
-        搜尋
+        {searchLoading ? <CircularProgress size={32} /> : '搜尋'}
       </Button>
     </Stack>
   )

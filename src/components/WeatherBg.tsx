@@ -1,5 +1,5 @@
 import React from 'react'
-import Box from '@mui/material/Box'
+import { Stack } from '@mui/material'
 
 interface WeatherProps {
   children?: React.ReactNode,
@@ -7,18 +7,18 @@ interface WeatherProps {
 
 export function WeatherBg ({ children }: WeatherProps) {
   return (
-    <Box sx={{
-      minHeight: '100vh',
-      backgroundImage: 'url(/assets/images/homepage.svg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}
+    <Stack
+      minHeight="100vh"
+      direction="column"
+      alignItems="center"
+      color="#ffffff"
+      sx={{
+        backgroundImage: 'url(/assets/images/homepage.svg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
       {children}
-    </Box>
+    </Stack>
   )
 }
