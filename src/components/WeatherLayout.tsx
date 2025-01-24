@@ -6,7 +6,9 @@ import { useWeather } from './WeatherProvider/useWeather'
 import { CircularProgress, Stack, Typography } from '@mui/material'
 
 export function WeatherLayout () {
-  const { hasWeatherData, searchLoading } = useWeather()
+  const { searchLoading, coordinates } = useWeather()
+
+  const hasGeoData = coordinates.lat && coordinates.lon
 
   return (
     <WeatherBg>
@@ -17,8 +19,8 @@ export function WeatherLayout () {
         </Stack>
       }
       {
-        hasWeatherData && !searchLoading
-          ? <Stack p={4} direction="column" alignItems="center" gap={4}>
+        hasGeoData && !searchLoading
+          ? <Stack mt={4} direction="column" alignItems="center" gap={4}>
             <WeatherCard />
             <WeeklyForecast />
           </Stack>

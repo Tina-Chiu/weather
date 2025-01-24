@@ -6,14 +6,17 @@ import { urlWithQueryParams } from '../utils/urlWithQueryParams'// 自定義的f
 import { type Coordinates } from '../types/Coordinates'// 定義的型別
 import { UNITS } from '../constants/units'
 
-interface CurrentWeatherProps extends Coordinates {}
+interface CurrentWeatherProps extends Coordinates {
+  onSuccess?: (data: CurrentWeather) => void,
+}
 
-export function useCurrentWeather ({ lat, lon }: CurrentWeatherProps) {
+export function useCurrentWeather ({ lat, lon, onSuccess }: CurrentWeatherProps) {
   const key = lat && lon
     ? urlWithQueryParams(`${WEATHER_API_URL}/weather`, { lat, lon, units: UNITS.METRIC })
     : null
   const { data, error, isLoading } = useSWR<CurrentWeather>(key, weatherSWRFetcher, {
     revalidateOnFocus: false,
+    onSuccess,
   })
 
   return {

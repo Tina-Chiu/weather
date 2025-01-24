@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Stack, TextField, Button, CircularProgress } from '@mui/material'
 import { useWeatherGeo } from '../hooks-api/useWeatherGeo'
 import { useWeather } from './WeatherProvider/useWeather'
@@ -7,7 +7,7 @@ import { type WeatherGeo } from '../types/WeatherGeo'
 export function Header () {
   const [city, setCity] = useState<string>('')
   const [cityQuery, setCityQuery] = useState<string>('Taiwan')
-  const { searchLoading, setCoordinates, setSearchLoading, setHasWeatherData } = useWeather()
+  const { searchLoading, setCoordinates, setHasWeatherData } = useWeather()
 
   const handleSearchOnSuccess = (data: WeatherGeo[]) => {
     if (data.length === 0) {
@@ -17,11 +17,7 @@ export function Header () {
     setCoordinates({ lat: data?.[0].lat, lon: data?.[0].lon })
   }
 
-  const { isLoading } = useWeatherGeo(cityQuery, (data) => handleSearchOnSuccess(data))
-
-  useEffect(() => {
-    setSearchLoading(isLoading)
-  }, [isLoading, setSearchLoading])
+  useWeatherGeo(cityQuery, (data) => handleSearchOnSuccess(data))
 
   return (
     <Stack

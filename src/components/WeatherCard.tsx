@@ -4,10 +4,15 @@ import Grid from '@mui/material/Grid'
 import { useWeather } from './WeatherProvider/useWeather'
 import { useCurrentWeather } from '../hooks-api/useCurrentWeather'
 import { WeatherIcon } from './WeatherIcon'
+import { Stack } from '@mui/material'
 
 export function WeatherCard () {
-  const { coordinates: { lat, lon } } = useWeather()
-  const { data: currentWeatherData } = useCurrentWeather({ lat, lon })
+  const { coordinates: { lat, lon }, setHasWeatherData } = useWeather()
+
+  const getCurrentWeatherSuccess = () => {
+    setHasWeatherData(true)
+  }
+  const { data: currentWeatherData } = useCurrentWeather({ lat, lon, onSuccess: getCurrentWeatherSuccess })
 
   const { weather, main, wind, name } = currentWeatherData || {}
 
@@ -23,13 +28,10 @@ export function WeatherCard () {
       }}
     >
       <Typography sx={{ fontWeight: 'bold', fontSize: '1.5rem', lineHeight: '1.5rem' }}>{name}</Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-        }}
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
       >
         <WeatherIcon iconCode={weather?.[0].icon} />
         <Box>
@@ -37,47 +39,86 @@ export function WeatherCard () {
             {`${Number(main?.temp).toFixed(1)}°C`}
           </Typography>
         </Box>
-      </Box>
+      </Stack>
 
-      <Box sx={{ mx: 5, display: 'flex', justifyContent: 'space-around' }}>
-        <Grid container spacing={0}>
+      <Stack justifyContent="center">
+        <Grid container spacing={4}>
           {/* 溫度 */}
-          <Grid item xs={6}>
-            <Box sx={{ backgroundColor: '#ffffff33', mx: 3, maxWidth: '280px', height: '100%', px: 4, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '5px 5px 0px 6px rgba(244, 244, 244, 0.10)' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>最高溫度</Typography>
+          <Grid item xs={12} md={6}>
+            <Stack
+              height="100%"
+              flexDirection="column"
+              justifyContent="center"
+              sx={{
+                backgroundColor: '#ffffff33',
+                mx: 3,
+                py: 1,
+                px: 3,
+                borderRadius: '10px',
+                boxShadow: '5px 5px 0px 6px rgba(244, 244, 244, 0.10)',
+              }}
+            >
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ width: '100%' }}
+              >
+                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>
+                  最高溫度
+                </Typography>
                 <Typography sx={{ fontSize: '24px' }}>
                   {`${Number(main?.temp_max).toFixed(1)}°C`}
                 </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>最低溫度</Typography>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>
+                  最低溫度
+                </Typography>
                 <Typography sx={{ fontSize: '24px' }}>
                   {`${Number(main?.temp_min).toFixed(1)}°C`}
                 </Typography>
-              </Box>
-            </Box>
+              </Stack>
+            </Stack>
           </Grid>
 
           {/* 風力，濕度 */}
-          <Grid item xs={6}>
-            <Box sx={{ backgroundColor: '#ffffff33', mx: 3, maxWidth: '280px', height: '100%', px: 4, py: 2, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '5px 5px 0px 6px rgba(244, 244, 244, 0.10)' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>濕度</Typography>
+          <Grid item xs={12} md={6}>
+            <Stack
+              // maxWidth="280px"
+              height="100%"
+              flexDirection="column"
+              justifyContent="center"
+              sx={{
+                backgroundColor: '#ffffff33',
+                mx: 3,
+                py: 1,
+                px: 3,
+                borderRadius: '10px',
+                boxShadow: '5px 5px 0px 6px rgba(244, 244, 244, 0.10)',
+              }}
+            >
+              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>
+                  濕度
+                </Typography>
                 <Typography sx={{ fontSize: '24px' }}>
                   {`${main?.humidity}%`}
                 </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>風力</Typography>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '16px' }}>
+                  風力
+                </Typography>
                 <Typography sx={{ fontSize: '24px' }}>
                   {`${wind?.speed} m/h`}
                 </Typography>
-              </Box>
-            </Box>
+              </Stack>
+            </Stack>
           </Grid>
+
         </Grid>
-      </Box>
+      </Stack>
     </Box>
   )
 }

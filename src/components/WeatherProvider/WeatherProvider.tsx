@@ -19,7 +19,7 @@ interface WeatherProviderProps {
 export const WeatherProvider = ({ children }: WeatherProviderProps) => {
   const [coordinates, setCoordinates] = useState<Coordinates>({})
   const [searchLoading, setSearchLoading] = useState<boolean>(false)
-  const [hasWeatherData, setHasWeatherData] = useState<boolean>(true)
+  const [hasWeatherData, setHasWeatherData] = useState<boolean>(false)
 
   const contextValue = useMemo(
     () => ({

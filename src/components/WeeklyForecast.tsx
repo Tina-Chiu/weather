@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Grid } from '@mui/material'
 import { ForecastCard } from './ForecastCard'
 import { useWeather } from './WeatherProvider/useWeather'
 import { useForecastWeather } from '../hooks-api/useForecastWeather'
@@ -32,29 +32,27 @@ export function WeeklyForecast () {
   )
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        gap: 2,
-      }}
+    <Grid container
+      spacing={2}
+      justifyContent="center"
+      alignContent="center"
     >
       {forecastWeatherData && !searchLoading && (
         fiveDayForecast?.map((item, index) => {
           const safeDate = item?.dt_txt ? new Date(item.dt_txt) : new Date()
           const weatherIconCode = item?.weather[0].icon
           return (
-            <ForecastCard
-              key={item?.dt_txt ?? index}
-              day={format(safeDate, DATE_FORMAT)}
-              weatherIconCode={weatherIconCode}
-              temp={item?.main.temp_max}
-              humidity={item?.main.humidity}
-            />
+            <Grid item xs="auto" key={item?.dt_txt ?? index}>
+              <ForecastCard
+                day={format(safeDate, DATE_FORMAT)}
+                weatherIconCode={weatherIconCode}
+                temp={item?.main.temp_max}
+                humidity={item?.main.humidity}
+              />
+            </Grid>
           )
         })
       )}
-    </Box>
+    </Grid>
   )
 }
