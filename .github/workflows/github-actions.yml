@@ -27,8 +27,7 @@ jobs:
 
       - name: Install and Build 🔧
         env:
-          VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
-          VITE_TMDB_API_URL: ${{ secrets.VITE_TMDB_API_URL }}
+          VITE_WEATHER_API_KEY: ${{ secrets.VITE_WEATHER_API_KEY }}
         run: |
           pnpm install --frozen-lockfile
           pnpm run build 

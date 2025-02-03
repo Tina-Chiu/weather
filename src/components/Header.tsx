@@ -31,6 +31,7 @@ export function Header () {
     >
       <TextField
         variant="outlined"
+        autoComplete="off"
         sx={{
           width: '400px',
           height: '40px',
